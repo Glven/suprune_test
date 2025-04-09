@@ -58,6 +58,6 @@ export function routerConfig() {
             ]
         }
     ], {
-        basename: MAIN_PAGE
+        basename: '/suprune_test'
     });
 };
