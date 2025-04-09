@@ -1,0 +1,83 @@
+.layout
+  height: 100vh
+  display: flex
+  &__content
+    flex: 1
+    overflow-y: auto
+    height: 100%
+.sider
+  display: flex
+  height: 100%
+  &__btn
+    width: 36px
+    height: 36px
+    background: transparent
+    transition: all 0.3s
+    cursor: pointer
+    border-radius: 8px
+    &:hover, &:active, &Active
+      background: rgba(#fff, 0.2)
+  &__panel
+    background: var(--primary)
+    width: 50px
+    height: 100%
+    padding: 20px 6px
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    &Top
+      display: flex
+      flex-direction: column
+      gap: 20px
+    &Bottom
+      display: flex
+      flex-direction: column
+      gap: 20px
+      position: relative
+      &::before
+        content: ''
+        position: absolute
+        top: 0
+        left: 50%
+        width: 19px
+        height: 1px
+        background: rgba(#fff, 0.2)
+        transform: translate(-50%, -20px)
+  &Menu
+    padding: 20px
+    display: flex
+    flex-direction: column
+    justify-content: space-between
+    background: var(--light)
+    box-shadow: 4px 0 16px rgba(#000, 0.08)
+    width: 250px
+    transition: all 0.3s
+    &Inactive
+      width: 0
+      padding: 0
+      overflow: hidden
+      *
+        opacity: 0
+    &__title
+      font-weight: 700
+      line-height: 24px
+    &__subtitle
+      line-height: 16px
+      font-size: 11px
+      letter-spacing: 0.24px
+    &__divider
+      margin: 20px 0
+      height: 1px
+      background: rgba(#000, 0.1)
+    &__buttons
+      display: flex
+      flex-direction: column
+      gap: 12px
+      svg
+        width: 16px
+        height: 16px
+    &__copy
+      font-size: 11px
+      text-align: center
+      color: rgba(#000, 0.3)
+

@@ -1,0 +1,23 @@
+.modal
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.12)
+  background: var(--light)
+  border-radius: 8px
+  padding: 24px
+  position: absolute
+  z-index: 200
+  top: 50%
+  left: 50%
+  transform: translate(-50%, -50%)
+  opacity: 0
+  display: none
+  transition: all 0.3s
+  transition-behavior: allow-discrete
+  &Active
+    display: block
+    opacity: 1
+    @starting-style
+      opacity: 0
+  &__title
+    margin-bottom: 24px
+    font-weight: 700
+    text-align: center
