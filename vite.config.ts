@@ -7,5 +7,5 @@ export default defineConfig({
   resolve: {
     alias: { "@": "/src" },
   },
-  base: "/",
+  base: "/suprune_test/",
 })
