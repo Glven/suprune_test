@@ -14,6 +14,9 @@ export const Modal = ({isOpen, handleCancel, title, children, width}: Props) => 
     const modalRef = useRef<HTMLDivElement>(null)
 
     useEffect(() => {
+
+        if (!isOpen) return;
+
         const handleClickOutside = (event: MouseEvent) => {
             if (modalRef.current && !modalRef.current.contains(event.target as Node)) {
                 handleCancel();
@@ -32,7 +35,7 @@ export const Modal = ({isOpen, handleCancel, title, children, width}: Props) => 
             document.removeEventListener('mousedown', handleClickOutside);
             document.removeEventListener('keydown', handleEsc);
         };
-    }, []);
+    }, [isOpen]);
 
     return (
         <div

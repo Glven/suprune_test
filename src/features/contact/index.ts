@@ -1,1 +1,1 @@
-export * from './hooks/useFetchContact.ts'
+export * from './hooks/useContactApi.ts'

@@ -5,18 +5,19 @@ import {
     OrganizationContact,
     OrganizationDetails,
     OrganizationPhotos, OrganizationTitleButtons,
-    useFetchOrganization
+    useOrganizationApi
 } from "@/features/organization";
-import {useFetchContact} from "@/features/contact";
 import {Loading} from "@/shared/ui/Loading";
 import {OrganizationTitle} from "@/entities/organization";
 import {BackButton} from "@/features/BackButton";
+import {observer} from "mobx-react-lite";
+import {useContactApi} from "@/features/contact";
 
-const OrganizationPage = () => {
+const OrganizationPage = observer(() => {
 
     const {id} = useParams();
-    const {organization, fetchComp, isLoading: orgLoading} = useFetchOrganization();
-    const {contact, fetchContact, isLoading: conLoading} = useFetchContact();
+    const {organization, fetchComp, isLoading: orgLoading} = useOrganizationApi();
+    const {contact, fetchContact, isLoading: conLoading} = useContactApi();
     const [isLoading, setIsLoading] = useState<boolean>(false);
 
     useEffect(() => {
@@ -68,6 +69,6 @@ const OrganizationPage = () => {
 
         </section>
     )
-}
+})
 
 export default OrganizationPage;

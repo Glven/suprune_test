@@ -1,5 +1,5 @@
-export * from './hooks/useFetchOrganization.ts/'
 export * from './ui/OrganizationBlocks'
 export * from './hooks/useOrganizationDetails.ts'
 export * from './hooks/useOrganizationContact.ts'
 export * from './ui/OrganizationTitleButtons/OrganizationTitleButtons.tsx'
+export * from './hooks/useOrganizationApi.ts'

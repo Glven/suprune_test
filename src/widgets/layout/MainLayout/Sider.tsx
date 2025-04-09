@@ -98,6 +98,7 @@ export const Sider = observer(() => {
                         <Button
                             type={'filled'}
                             icon={<Briefcase/> as ReactNode}
+                            onClick={() => navigate(ORGANIZATIONS_PAGE)}
                         >
                             Organizations
                         </Button>

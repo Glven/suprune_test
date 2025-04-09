@@ -2,13 +2,13 @@ import {api} from "@/shared/api/api.ts";
 import {useEffect, useState} from "react";
 import {OrganizationCard, OrganizationType} from "@/entities/organization";
 import cls from './OrganizationsPage.module.sass';
-import {useFetchOrganization} from "@/features/organization";
+import {useOrganizationApi} from "@/features/organization";
 
 const OrganizationsPage = () => {
 
     const [organizations, setOrganizations] = useState<OrganizationType[]>([]);
 
-    const {organization, fetchComp} = useFetchOrganization();
+    const {organization, fetchComp} = useOrganizationApi();
 
     useEffect(() => {
 

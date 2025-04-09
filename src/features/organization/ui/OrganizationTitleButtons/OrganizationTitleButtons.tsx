@@ -1,20 +1,26 @@
 import {OrganizationType} from "@/entities/organization";
 import cls from './OrganizationTitleButtons.module.sass';
 import {Edit, Trash} from "@/shared/ui/Icons";
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {Modal} from "@/shared/ui/Modal";
 import {Input} from "@/shared/ui/Input";
 import {Button} from "@/shared/ui/Button";
+import {useOrganizationApi} from "@/features/organization";
+import {observer} from "mobx-react-lite";
+import {toJS} from "mobx";
+
 
 type Props = {
     organization: OrganizationType
 }
 
-export const OrganizationTitleButtons = ({organization}: Props) => {
+export const OrganizationTitleButtons = observer(({organization}: Props) => {
+
 
     const [isOpenEdit, setIsOpenEdit] = useState<boolean>(false);
     const [isOpenDelete, setIsOpenDelete] = useState<boolean>(false);
-    const [newOrganization, setNewOrganization] = useState<OrganizationType>(organization);
+    const [newOrganization, setNewOrganization] = useState<OrganizationType>(toJS(organization));
+    const {updateOrganizationData, deleteOrganization} = useOrganizationApi();
 
     const handleChangeName = (value: string) => {
         setNewOrganization(prev => ({
@@ -23,10 +29,24 @@ export const OrganizationTitleButtons = ({organization}: Props) => {
         }))
     }
 
+    useEffect(() => {
+        setNewOrganization(toJS(organization))
+    }, [organization]);
+
     const handleCancel = () => {
-        setIsOpenEdit(false)
-        setIsOpenDelete()
+        setIsOpenEdit(false);
+        setIsOpenDelete(false);
     };
+
+    const handleSave = () => {
+        updateOrganizationData(newOrganization);
+        handleCancel();
+    }
+
+    const handleDelete = () => {
+        deleteOrganization(organization.id);
+        handleCancel();
+    }
 
     return (
         <div className={cls.buttons}>
@@ -52,7 +72,7 @@ export const OrganizationTitleButtons = ({organization}: Props) => {
 
                 <Input
                     handleChange={handleChangeName}
-                    value={organization.name}
+                    value={newOrganization.name}
                 />
 
                 <div className={cls.modalButtons}>
@@ -62,7 +82,10 @@ export const OrganizationTitleButtons = ({organization}: Props) => {
                     >
                         Cancel
                     </Button>
-                    <Button type={'filled'}>
+                    <Button
+                        type={'filled'}
+                        onClick={handleSave}
+                    >
                         Save changes
                     </Button>
                 </div>
@@ -87,7 +110,10 @@ export const OrganizationTitleButtons = ({organization}: Props) => {
                     >
                         No
                     </Button>
-                    <Button type={'filled'}>
+                    <Button
+                        type={'filled'}
+                        onClick={handleDelete}
+                    >
                         Yes, remove
                     </Button>
                 </div>
@@ -98,4 +124,4 @@ export const OrganizationTitleButtons = ({organization}: Props) => {
         </div>
     )
 
-}
+})

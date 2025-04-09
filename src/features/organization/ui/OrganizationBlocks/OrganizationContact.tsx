@@ -5,12 +5,13 @@ import {memo, ReactNode} from "react";
 import cls from './OrganizationBlocks.module.sass';
 import {Input} from "@/shared/ui/Input";
 import {useOrganizationContact} from "@/features/organization";
+import {observer} from "mobx-react-lite";
 
 type Props = {
     contact: ContactType|null
 }
 
-const OrganizationContactComp = ({contact}:Props) => {
+const OrganizationContactComp = observer(({contact}:Props) => {
 
     const {
         isEdit,
@@ -19,11 +20,10 @@ const OrganizationContactComp = ({contact}:Props) => {
         handleSave,
         handleClick,
         handleEmailChange,
-        handleFieldChange,
-        newContact
+        handlePhoneChange,
+        newContact,
+        formatPhone
     } = useOrganizationContact(contact)
-
-    console.log(newContact)
 
     return (
         <OrganizationBlockInfo
@@ -63,12 +63,13 @@ const OrganizationContactComp = ({contact}:Props) => {
                     </p>
                     {!isEdit ?
                         <p className={cls.field__value}>
-                            {contact?.phone}
+                            {formatPhone(contact?.phone || '')}
                         </p> :
                         <div className={cls.field__input}>
                             <Input
-                                handleChange={(value: string) => handleFieldChange(value, 'phone')}
-                                value={newContact.phone}
+                                handleChange={handlePhoneChange}
+                                type={"phone"}
+                                value={formatPhone(newContact.phone)}
                             />
                         </div>
                     }
@@ -96,6 +97,6 @@ const OrganizationContactComp = ({contact}:Props) => {
 
         </OrganizationBlockInfo>
     )
-}
+})
 
 export const OrganizationContact = memo(OrganizationContactComp);

@@ -1,8 +1,11 @@
 import {ContactType} from "@/entities/contact";
 import {useEffect, useState} from "react";
+import {toJS} from "mobx";
+import {useContactApi} from "@/features/contact";
 
 export const useOrganizationContact = (contact: ContactType|null) => {
-    const [newContact, setNewContact] = useState<ContactType>(contact ? contact : {
+
+    const [newContact, setNewContact] = useState<ContactType>(contact ? toJS(contact) : {
         createdAt: '',
         email: '',
         updatedAt: '',
@@ -12,8 +15,10 @@ export const useOrganizationContact = (contact: ContactType|null) => {
         phone: ''
     });
 
+    const {updateContactData} = useContactApi();
+
     useEffect(() => {
-        setNewContact(contact);
+        setNewContact(toJS(contact));
     }, [contact]);
 
     const [isEdit, setIsEdit] = useState<boolean>(false);
@@ -23,7 +28,8 @@ export const useOrganizationContact = (contact: ContactType|null) => {
     }
 
     const handleSave = () => {
-
+        updateContactData(newContact);
+        setIsEdit(false);
     }
 
     const handleCancel = () => {
@@ -31,15 +37,14 @@ export const useOrganizationContact = (contact: ContactType|null) => {
         setNewContact(contact);
     }
 
-    const handleFieldChange = (value: string, key: string) => {
+    const handlePhoneChange = (value: string) => {
 
-        if (key !== 'name') {
-            setNewContact(prev => ({
-                ...prev,
-                [key]: value
-            }));
-            return;
-        }
+        const newValue = value.replace(/\D/g, '');
+
+        setNewContact(prev => ({
+            ...prev,
+            phone: newValue
+        }))
     }
 
     const handleNameChange = (value: string) => {
@@ -68,6 +73,18 @@ export const useOrganizationContact = (contact: ContactType|null) => {
         }))
     }
 
+    const formatPhone = (phone: string) => {
+        const cleaned = phone.replace(/\D/g, '');
+
+        const match = cleaned.match(/^(\d{1})(\d{3})(\d{3})(\d{2})(\d{2})$/);
+
+        if (match) {
+            return `+${match[1]} ${match[2]} ${match[3]}-${match[4]}-${match[5]}`;
+        }
+
+        return phone;
+    };
+
     return {
         handleCancel,
         handleClick,
@@ -75,7 +92,8 @@ export const useOrganizationContact = (contact: ContactType|null) => {
         newContact,
         handleNameChange,
         handleEmailChange,
-        handleFieldChange,
-        isEdit
+        handlePhoneChange,
+        isEdit,
+        formatPhone
     }
 }

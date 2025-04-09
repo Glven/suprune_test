@@ -11,14 +11,14 @@ import {Input} from "@/shared/ui/Input";
 import {clsx} from "clsx";
 import {useOrganizationDetails} from "@/features/organization";
 import {SelectMultiple, SelectSingle} from "@/shared/ui/Select";
+import {observer} from "mobx-react-lite";
 
 type Props = {
     organization: OrganizationType;
 }
 
-const OrganizationDetailsComp = ({organization} : Props) => {
+const OrganizationDetailsComp = observer(({organization} : Props) => {
 
-    const {contract, type, businessEntity} = organization;
     const {
         isEdit,
         handleClick,
@@ -33,6 +33,8 @@ const OrganizationDetailsComp = ({organization} : Props) => {
         handleBusinessEntityChange,
         handleTypesChange
     } = useOrganizationDetails(organization);
+
+    const {contract, type, businessEntity} = newOrganization;
 
 
     return (
@@ -114,6 +116,6 @@ const OrganizationDetailsComp = ({organization} : Props) => {
             </div>
         </OrganizationBlockInfo>
     )
-}
+})
 
 export const OrganizationDetails = memo(OrganizationDetailsComp);

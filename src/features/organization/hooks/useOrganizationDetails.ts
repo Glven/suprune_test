@@ -1,20 +1,27 @@
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import {OrganizationType, organizationTypes} from "@/entities/organization";
 import {OptionType} from "@/shared/ui/Select";
+import {useOrganizationApi} from "@/features/organization";
+import {toJS} from "mobx";
 
 export const useOrganizationDetails = (organization: OrganizationType) => {
     const [isEdit, setIsEdit] = useState<boolean>(false);
-    const [newOrganization, setNewOrganization] = useState<OrganizationType>({...organization});
+    const [newOrganization, setNewOrganization] = useState<OrganizationType>(toJS(organization));
 
-    const {contract, type, businessEntity} = organization;
+    const {contract, type, businessEntity} = newOrganization;
+    const {updateOrganizationData} = useOrganizationApi();
 
+    useEffect(() => {
+        setNewOrganization(toJS(organization));
+    }, [organization]);
 
     const handleClick = () => {
         setIsEdit(true);
     }
 
     const handleSave = () => {
-
+        updateOrganizationData(newOrganization);
+        setIsEdit(false);
     }
 
     const handleCancel = () => {
